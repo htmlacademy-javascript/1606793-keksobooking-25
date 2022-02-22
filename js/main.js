@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const getRandomInteger = (from, to) => {
   if (from >= to || from < 0) {
