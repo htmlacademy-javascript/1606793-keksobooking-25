@@ -1,4 +1,4 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat} from './util';
+import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from './utils.js';
 
 const TIMES = ['12:00', '13:00', '14:00'];
 
@@ -22,14 +22,11 @@ const LAT_BOUNDS = {
   MAX: 35.70000,
 };
 
-
 /* временные данные */
 
 const getRandomAvatar = () => `img/avatars/user${getRandomPositiveInteger(1, 10)}.png`;
 
 const getRandomLocationPoint = (min, max) => getRandomPositiveFloat(min, max, 5);
-
-const getRandomArrayElement = (array) => array[getRandomPositiveInteger(0, array.length - 1)];
 
 const getRandomArrayElements = (array) => {
   const arrayCopy = array.slice();
@@ -77,7 +74,6 @@ const createAdvertisement = () => {
   };
 };
 
-/* eslint-disable no-unused-expressions */
 const objectGenerator = new Array(10).fill(null).map(createAdvertisement);
 
 export {objectGenerator};

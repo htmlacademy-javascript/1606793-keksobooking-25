@@ -12,4 +12,6 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
-export {getRandomPositiveInteger, getRandomPositiveFloat};
+const getRandomArrayElement = (array) => array[getRandomPositiveInteger(0, array.length - 1)];
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement};

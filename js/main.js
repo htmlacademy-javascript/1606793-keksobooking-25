@@ -1,3 +1,3 @@
 /* eslint-disable no-unused-vars */
-import {objectGenerator} from './data';
+import {objectGenerator} from './data.js';
 
