@@ -1,3 +1,1 @@
-/* eslint-disable no-unused-vars */
-import {objectGenerator} from './data.js';
-
+import './card.js';

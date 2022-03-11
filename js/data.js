@@ -74,6 +74,6 @@ const createAdvertisement = () => {
   };
 };
 
-const objectGenerator = new Array(10).fill(null).map(createAdvertisement);
+const advertisements = new Array(10).fill(null).map(createAdvertisement);
 
-export {objectGenerator};
+export {advertisements};
