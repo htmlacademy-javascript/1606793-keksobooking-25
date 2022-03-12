@@ -1,8 +1,9 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement} from './utils.js';
+import {OFFER_FLAT, OFFER_BUNGALOW, OFFER_HOUSE, OFFER_PALACE, OFFER_HOTEL} from './const.js';
 
 const TIMES = ['12:00', '13:00', '14:00'];
 
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const TYPES = [OFFER_FLAT, OFFER_BUNGALOW, OFFER_HOUSE, OFFER_PALACE, OFFER_HOTEL];
 
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
@@ -24,7 +25,9 @@ const LAT_BOUNDS = {
 
 /* временные данные */
 
-const getRandomAvatar = () => `img/avatars/user${getRandomPositiveInteger(1, 10)}.png`;
+const checkAvatarNumber = (number) => (number >= 10) ? number : `0${number}`;
+
+const getRandomAvatar = () => `img/avatars/user${checkAvatarNumber(getRandomPositiveInteger(1, 11))}.png`;
 
 const getRandomLocationPoint = (min, max) => getRandomPositiveFloat(min, max, 5);
 
@@ -74,6 +77,6 @@ const createAdvertisement = () => {
   };
 };
 
-const objectGenerator = new Array(10).fill(null).map(createAdvertisement);
+const advertisements = new Array(1).fill(null).map(createAdvertisement);
 
-export {objectGenerator};
+export {advertisements};
