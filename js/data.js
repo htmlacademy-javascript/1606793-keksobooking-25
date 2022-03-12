@@ -24,7 +24,7 @@ const LAT_BOUNDS = {
 
 /* временные данные */
 
-const getRandomAvatar = () => `img/avatars/user${getRandomPositiveInteger(1, 10)}.png`;
+const getRandomAvatar = () => `img/avatars/user0${getRandomPositiveInteger(1, 9)}.png`;
 
 const getRandomLocationPoint = (min, max) => getRandomPositiveFloat(min, max, 5);
 
@@ -74,6 +74,6 @@ const createAdvertisement = () => {
   };
 };
 
-const advertisements = new Array(10).fill(null).map(createAdvertisement);
+const advertisements = new Array(1).fill(null).map(createAdvertisement);
 
-export {advertisements};
+export {TYPES, advertisements};

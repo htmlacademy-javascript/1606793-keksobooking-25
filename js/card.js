@@ -1,7 +1,8 @@
 import {advertisements} from './data.js';
 import {getOrdinal} from './utils.js';
+import {OFFER_FLAT, OFFER_BUNGALOW, OFFER_HOUSE, OFFER_PALACE, OFFER_HOTEL} from './const.js';
 
-const map = document.querySelector('#map-canvas');
+const mapCanvasElement = document.querySelector('#map-canvas');
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -18,25 +19,23 @@ const renderFeatures = (advertisementElement, features) => {
 };
 
 const renderPhotos = (advertisementElement, links) => {
-  const photoElement = advertisementElement.querySelector('.popup__photo');
   const popupPhotos = advertisementElement.querySelector('.popup__photos');
+  const photoElement = popupPhotos.querySelector('.popup__photo');
 
-  for (let index = 0; index < links.length-1; index++) {
+  for (let index = 0; index < links.length; index++) {
     const nextPhotoElement = photoElement.cloneNode();
+    photoElement.remove();
     popupPhotos.appendChild(nextPhotoElement);
+    nextPhotoElement.src = links[index];
   }
-  const photoElements = advertisementElement.querySelectorAll('.popup__photo');
-  photoElements.forEach((element, index) => {
-    element.src = links[index];
-  });
 };
 
-const offerTypesDict = {
-  'flat' : 'Квартира',
-  'bungalow' : 'Бунгало',
-  'house' : 'Дом',
-  'palace' : 'Дворец',
-  'hotel' : 'Отель',
+const offerTypes = {
+  [OFFER_FLAT] : 'Квартира',
+  [OFFER_BUNGALOW] : 'Бунгало',
+  [OFFER_HOUSE] : 'Дом',
+  [OFFER_PALACE] : 'Дворец',
+  [OFFER_HOTEL] : 'Отель',
 };
 
 advertisements.forEach((ads) => {
@@ -44,7 +43,7 @@ advertisements.forEach((ads) => {
   advertisementElement.querySelector('.popup__title').textContent = ads.offer.title;
   advertisementElement.querySelector('.popup__text--address').textContent = ads.offer.address;
   advertisementElement.querySelector('.popup__text--price').textContent = ads.offer.price;
-  advertisementElement.querySelector('.popup__type').textContent = offerTypesDict[ads.offer.type];
+  advertisementElement.querySelector('.popup__type').textContent = offerTypes[ads.offer.type];
   const roomOrdinal = getOrdinal(ads.offer.rooms, ['комната', 'комнаты', 'комнат']);
   const guestOrdinal = getOrdinal(ads.offer.guest, ['гостя', 'гостей', 'гостей']);
   advertisementElement.querySelector('.popup__text--capacity').textContent = `${ads.offer.rooms} ${roomOrdinal} для ${ads.offer.guest} ${guestOrdinal}`;
@@ -53,6 +52,6 @@ advertisements.forEach((ads) => {
   advertisementElement.querySelector('.popup__description').textContent = ads.offer.description;
   advertisementElement.querySelector('.popup__avatar').src = ads.author.avatar;
   renderPhotos(advertisementElement, ads.offer.photos);
-  map.appendChild(advertisementElement);
+  mapCanvasElement.appendChild(advertisementElement);
 });
 
