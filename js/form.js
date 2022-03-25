@@ -1,3 +1,10 @@
+import {
+  CAPACITY_GUESTS_1,
+  CAPACITY_GUESTS_2,
+  CAPACITY_GUESTS_3,
+  CAPACITY_GUESTS_100,
+  CAPACITY_NOT_FOR_GUESTS} from './const.js';
+
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -12,10 +19,10 @@ const pristine = new Pristine(adForm, {
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 const roomsOptions = {
-  '1 комната': 'для 1 гостя',
-  '2 комнаты': ['для 2 гостей', 'для 1 гостя'],
-  '3 комнаты': ['для 3 гостей', 'для 2 гостей', 'для 1 гостя'],
-  '100 комнат': 'не для гостей',
+  [CAPACITY_GUESTS_1]: [CAPACITY_GUESTS_1],
+  [CAPACITY_GUESTS_2]: [CAPACITY_GUESTS_2, CAPACITY_GUESTS_1],
+  [CAPACITY_GUESTS_3]: [CAPACITY_GUESTS_3, CAPACITY_GUESTS_2, CAPACITY_GUESTS_1],
+  [CAPACITY_GUESTS_100]: CAPACITY_NOT_FOR_GUESTS,
 };
 
 function validateOptions () {
@@ -25,7 +32,7 @@ function validateOptions () {
 function getOptionsErrorMessage () {
   return `
   ${roomsField.value}
-  ${roomsField.value === '1 комната' ? ['не доступна '] + capacityField.value : ['не доступны '] + capacityField.value}
+  ${roomsField.value === capacityField.value ? ['не доступна '] + capacityField.value : ['не доступны '] + capacityField.value}
   `;
 }
 
