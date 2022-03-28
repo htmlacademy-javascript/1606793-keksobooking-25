@@ -2,6 +2,14 @@ import {advertisements} from './data.js';
 import {getOrdinal} from './utils.js';
 import {OFFER_FLAT, OFFER_BUNGALOW, OFFER_HOUSE, OFFER_PALACE, OFFER_HOTEL} from './const.js';
 
+const offerTypes = {
+  [OFFER_FLAT] : 'Квартира',
+  [OFFER_BUNGALOW] : 'Бунгало',
+  [OFFER_HOUSE] : 'Дом',
+  [OFFER_PALACE] : 'Дворец',
+  [OFFER_HOTEL] : 'Отель',
+};
+
 const mapCanvasElement = document.querySelector('#map-canvas');
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -28,14 +36,6 @@ const renderPhotos = (advertisementElement, links) => {
     popupPhotos.appendChild(nextPhotoElement);
     nextPhotoElement.src = links[index];
   }
-};
-
-const offerTypes = {
-  [OFFER_FLAT] : 'Квартира',
-  [OFFER_BUNGALOW] : 'Бунгало',
-  [OFFER_HOUSE] : 'Дом',
-  [OFFER_PALACE] : 'Дворец',
-  [OFFER_HOTEL] : 'Отель',
 };
 
 const renderAdvertisements = () => {
