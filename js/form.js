@@ -6,7 +6,26 @@ import {
   ROOMS_AMOUNT_1,
   ROOMS_AMOUNT_2,
   ROOMS_AMOUNT_3,
-  ROOMS_AMOUNT_100, } from './const.js';
+  ROOMS_AMOUNT_100,
+  OFFER_BUNGALOW,
+  OFFER_FLAT,
+  OFFER_HOTEL,
+  OFFER_HOUSE,
+  OFFER_PALACE,
+  OFFER_BUNGALOW_MIN_PRICE,
+  OFFER_FLAT_MIN_PRICE,
+  OFFER_HOTEL_MIN_PRICE,
+  OFFER_HOUSE_MIN_PRICE,
+  OFFER_PALACE_MIN_PRICE,
+} from './const.js';
+
+// const OFFERS_MIN_PRICES = {
+//   [OFFER_BUNGALOW]: [OFFER_BUNGALOW_MIN_PRICE],
+//   [OFFER_FLAT]: [OFFER_FLAT_MIN_PRICE],
+//   [OFFER_HOTEL]: [OFFER_HOTEL_MIN_PRICE],
+//   [OFFER_HOUSE]: [OFFER_HOUSE_MIN_PRICE],
+//   [OFFER_PALACE]: [OFFER_PALACE_MIN_PRICE],
+// };
 
 const ROOMS_TO_CAPACITY_RULES = {
   [ROOMS_AMOUNT_1]: [CAPACITY_GUESTS_1],
@@ -40,6 +59,44 @@ const pristine = new Pristine(adForm, {
   errorTextParent: 'ad-form__element',
 });
 
+// Цена за ночь
+
+const offerTypeField = adForm.querySelector('[name="type"]');
+const priceField = adForm.querySelector('[name="price"]');
+
+// const validateOfferPrice = () => OFFERS_MIN_PRICES[+offerTypeField.value].includes(+priceField.value);
+
+function validateOfferOptions () {
+  switch (offerTypeField.value) {
+    case OFFER_BUNGALOW:
+      priceField.placeholder = OFFER_BUNGALOW_MIN_PRICE;
+      break;
+    case OFFER_FLAT:
+      priceField.placeholder = OFFER_FLAT_MIN_PRICE;
+      break;
+    case OFFER_HOTEL:
+      priceField.placeholder = OFFER_HOTEL_MIN_PRICE;
+      break;
+    case OFFER_HOUSE:
+      priceField.placeholder = OFFER_HOUSE_MIN_PRICE;
+      break;
+    case OFFER_PALACE:
+      priceField.placeholder = OFFER_PALACE_MIN_PRICE;
+      break;
+  }
+}
+
+function getOfferTypeErrorMessage () {
+  return `
+  ${(priceField.value < priceField.placeholder) ? ['минимальная цена'] + priceField.placeholder : ''}
+  `;
+}
+
+pristine.addValidator(offerTypeField, validateOfferOptions, getOfferTypeErrorMessage);
+pristine.addValidator(priceField, validateOfferOptions, getOfferTypeErrorMessage);
+
+// Количество комнат и количество мест
+
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 
@@ -48,7 +105,7 @@ let capacityValidated = false;
 
 const validateRoomsAndCapacity = () => ROOMS_TO_CAPACITY_RULES[+roomsField.value].includes(+capacityField.value);
 
-function validateOptions () {
+function validateCapacityOptions () {
   if (roomsValidated && capacityValidated) {
     roomsValidated = capacityValidated = false;
   }
@@ -69,7 +126,7 @@ function validateOptions () {
   return isValid;
 }
 
-function getOptionsErrorMessage () {
+function getCapacityOptionsErrorMessage () {
   return `
   ${ROOM_NAME_BY_VALUE[+roomsField.value]}
   ${+roomsField.value === 1
@@ -78,8 +135,8 @@ function getOptionsErrorMessage () {
   `;
 }
 
-pristine.addValidator(roomsField, validateOptions, getOptionsErrorMessage);
-pristine.addValidator(capacityField, validateOptions, getOptionsErrorMessage);
+pristine.addValidator(roomsField, validateCapacityOptions, getCapacityOptionsErrorMessage);
+pristine.addValidator(capacityField, validateCapacityOptions, getCapacityOptionsErrorMessage);
 
 adForm.addEventListener('submit',  (evt) => {
   if (!pristine.validate()) {
