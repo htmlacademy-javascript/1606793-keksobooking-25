@@ -33,4 +33,39 @@ const getOrdinal = (num, ordinals) => {
   return ordinals[2];
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getOrdinal};
+const validateConnectedFormElements = (
+  pristine,
+  element1,
+  element2,
+  validateCallback,
+  errorMessageCallback
+) => {
+  let isValidatedElement1 = false;
+  let isValidatedElement2 = false;
+
+  const validateElements = function () {
+    if (isValidatedElement1 && isValidatedElement2) {
+      isValidatedElement1 = isValidatedElement2 = false;
+    }
+    const isValid = validateCallback();
+    if (isValid) {
+      if (this === element1) {
+        isValidatedElement1 = true;
+        if (!isValidatedElement2) {
+          pristine.validate(element2);
+        }
+      } else if (this === element2) {
+        isValidatedElement2 = true;
+        if (!isValidatedElement1) {
+          pristine.validate(element1);
+        }
+      }
+    }
+    return isValid;
+  };
+
+  pristine.addValidator(element1, validateElements, errorMessageCallback);
+  pristine.addValidator(element2, validateElements, errorMessageCallback);
+};
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getOrdinal, validateConnectedFormElements};

@@ -1,7 +1,6 @@
-import {renderAdvertisements} from './card.js';
 import {disableForm, enableForm} from './form.js';
+import {map} from './map.js';
 
-renderAdvertisements();
 disableForm();
 enableForm();
 

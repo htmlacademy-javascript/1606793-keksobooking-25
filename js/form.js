@@ -18,14 +18,15 @@ import {
   OFFER_HOUSE_MIN_PRICE,
   OFFER_PALACE_MIN_PRICE,
 } from './const.js';
+import {validateConnectedFormElements} from './utils.js';
 
-// const OFFERS_MIN_PRICES = {
-//   [OFFER_BUNGALOW]: [OFFER_BUNGALOW_MIN_PRICE],
-//   [OFFER_FLAT]: [OFFER_FLAT_MIN_PRICE],
-//   [OFFER_HOTEL]: [OFFER_HOTEL_MIN_PRICE],
-//   [OFFER_HOUSE]: [OFFER_HOUSE_MIN_PRICE],
-//   [OFFER_PALACE]: [OFFER_PALACE_MIN_PRICE],
-// };
+const OFFERS_MIN_PRICES = {
+  [OFFER_BUNGALOW]: [OFFER_BUNGALOW_MIN_PRICE],
+  [OFFER_FLAT]: [OFFER_FLAT_MIN_PRICE],
+  [OFFER_HOTEL]: [OFFER_HOTEL_MIN_PRICE],
+  [OFFER_HOUSE]: [OFFER_HOUSE_MIN_PRICE],
+  [OFFER_PALACE]: [OFFER_PALACE_MIN_PRICE],
+};
 
 const ROOMS_TO_CAPACITY_RULES = {
   [ROOMS_AMOUNT_1]: [CAPACITY_GUESTS_1],
@@ -64,79 +65,43 @@ const pristine = new Pristine(adForm, {
 const offerTypeField = adForm.querySelector('[name="type"]');
 const priceField = adForm.querySelector('[name="price"]');
 
-// const validateOfferPrice = () => OFFERS_MIN_PRICES[+offerTypeField.value].includes(+priceField.value);
+const validateOfferOptions = () => {
+  const value = +priceField.value;
+  const minValue = OFFERS_MIN_PRICES[offerTypeField.value];
+  priceField.placeholder = minValue;
+  return minValue <= value;
+};
 
-function validateOfferOptions () {
-  switch (offerTypeField.value) {
-    case OFFER_BUNGALOW:
-      priceField.placeholder = OFFER_BUNGALOW_MIN_PRICE;
-      break;
-    case OFFER_FLAT:
-      priceField.placeholder = OFFER_FLAT_MIN_PRICE;
-      break;
-    case OFFER_HOTEL:
-      priceField.placeholder = OFFER_HOTEL_MIN_PRICE;
-      break;
-    case OFFER_HOUSE:
-      priceField.placeholder = OFFER_HOUSE_MIN_PRICE;
-      break;
-    case OFFER_PALACE:
-      priceField.placeholder = OFFER_PALACE_MIN_PRICE;
-      break;
-  }
-}
+const getOfferTypeErrorMessage = () => `минимальная цена ${priceField.placeholder}`;
 
-function getOfferTypeErrorMessage () {
-  return `
-  ${(priceField.value < priceField.placeholder) ? ['минимальная цена'] + priceField.placeholder : ''}
-  `;
-}
-
-pristine.addValidator(offerTypeField, validateOfferOptions, getOfferTypeErrorMessage);
-pristine.addValidator(priceField, validateOfferOptions, getOfferTypeErrorMessage);
+validateConnectedFormElements(
+  pristine,
+  offerTypeField,
+  priceField,
+  validateOfferOptions,
+  getOfferTypeErrorMessage
+);
 
 // Количество комнат и количество мест
 
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 
-let roomsValidated = false;
-let capacityValidated = false;
-
 const validateRoomsAndCapacity = () => ROOMS_TO_CAPACITY_RULES[+roomsField.value].includes(+capacityField.value);
 
-function validateCapacityOptions () {
-  if (roomsValidated && capacityValidated) {
-    roomsValidated = capacityValidated = false;
-  }
-  const isValid = validateRoomsAndCapacity();
-  if (isValid) {
-    if (this === roomsField) {
-      roomsValidated = true;
-      if (!capacityValidated) {
-        pristine.validate(capacityField);
-      }
-    } else if (this === capacityField) {
-      capacityValidated = true;
-      if (!roomsValidated) {
-        pristine.validate(roomsField);
-      }
-    }
-  }
-  return isValid;
-}
-
-function getCapacityOptionsErrorMessage () {
-  return `
+const getCapacityOptionsErrorMessage = () => `
   ${ROOM_NAME_BY_VALUE[+roomsField.value]}
-  ${+roomsField.value === 1
-    ? ['не доступна '] + CAPACITY_NAME_BY_VALUE[+capacityField.value]
-    : ['не доступны '] + CAPACITY_NAME_BY_VALUE[+capacityField.value]}
-  `;
-}
+  ${roomsField.value === 1 ? ['не доступна '] : ['не доступны ']}
+  ${CAPACITY_NAME_BY_VALUE[+capacityField.value]}
+`;
 
-pristine.addValidator(roomsField, validateCapacityOptions, getCapacityOptionsErrorMessage);
-pristine.addValidator(capacityField, validateCapacityOptions, getCapacityOptionsErrorMessage);
+validateOfferOptions(
+  pristine,
+  roomsField,
+  capacityField,
+  validateRoomsAndCapacity,
+  getCapacityOptionsErrorMessage
+);
 
 adForm.addEventListener('submit',  (evt) => {
   if (!pristine.validate()) {
