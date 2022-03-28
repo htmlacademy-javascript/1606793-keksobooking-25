@@ -11,4 +11,3 @@ L.tileLayer(
   },
 ).addTo(map);
 
-export {map};
