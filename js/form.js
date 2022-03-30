@@ -54,59 +54,15 @@ const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const mapFilterSelects = mapFilters.querySelectorAll('select');
 const mapFeatures = document.querySelector('.map__features');
+const offerTypeField = adForm.querySelector('[name="type"]');
+const priceField = adForm.querySelector('[name="price"]');
+const addressInput = document.querySelector('#address');
+const roomsField = adForm.querySelector('[name="rooms"]');
+const capacityField = adForm.querySelector('[name="capacity"]');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
-});
-
-// Цена за ночь
-
-const offerTypeField = adForm.querySelector('[name="type"]');
-const priceField = adForm.querySelector('[name="price"]');
-
-const validateOfferOptions = () => {
-  const value = +priceField.value;
-  const minValue = OFFERS_MIN_PRICES[offerTypeField.value];
-  priceField.placeholder = minValue;
-  return minValue <= value;
-};
-
-const getOfferTypeErrorMessage = () => `минимальная цена ${priceField.placeholder}`;
-
-validateConnectedFormElements(
-  pristine,
-  offerTypeField,
-  priceField,
-  validateOfferOptions,
-  getOfferTypeErrorMessage
-);
-
-// Количество комнат и количество мест
-
-const roomsField = adForm.querySelector('[name="rooms"]');
-const capacityField = adForm.querySelector('[name="capacity"]');
-
-const validateRoomsAndCapacity = () => ROOMS_TO_CAPACITY_RULES[+roomsField.value].includes(+capacityField.value);
-
-const getCapacityOptionsErrorMessage = () => `
-  ${ROOM_NAME_BY_VALUE[+roomsField.value]}
-  ${roomsField.value === 1 ? ['не доступна '] : ['не доступны ']}
-  ${CAPACITY_NAME_BY_VALUE[+capacityField.value]}
-`;
-
-validateOfferOptions(
-  pristine,
-  roomsField,
-  capacityField,
-  validateRoomsAndCapacity,
-  getCapacityOptionsErrorMessage
-);
-
-adForm.addEventListener('submit',  (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
 });
 
 const disableForm = () => {
@@ -135,4 +91,58 @@ const enableForm = () => {
   });
 };
 
-export {disableForm, enableForm, priceField};
+const initForm = () => {
+
+  // Цена за ночь
+
+  const validateOfferOptions = () => {
+    const value = +priceField.value;
+    const minValue = OFFERS_MIN_PRICES[offerTypeField.value];
+    priceField.placeholder = minValue;
+    return minValue <= value;
+  };
+
+  const getOfferTypeErrorMessage = () => `минимальная цена ${priceField.placeholder}`;
+
+  validateConnectedFormElements(
+    pristine,
+    offerTypeField,
+    priceField,
+    validateOfferOptions,
+    getOfferTypeErrorMessage
+  );
+
+  // Количество комнат и количество мест
+
+  const validateRoomsAndCapacity = () => ROOMS_TO_CAPACITY_RULES[+roomsField.value].includes(+capacityField.value);
+  const getCapacityOptionsErrorMessage = () => `
+  ${ROOM_NAME_BY_VALUE[+roomsField.value]}
+  ${roomsField.value === 1 ? ['не доступна '] : ['не доступны ']}
+  ${CAPACITY_NAME_BY_VALUE[+capacityField.value]}
+`;
+
+  validateOfferOptions(
+    pristine,
+    roomsField,
+    capacityField,
+    validateRoomsAndCapacity,
+    getCapacityOptionsErrorMessage
+  );
+
+  adForm.addEventListener('submit', (evt) => {
+    if (!pristine.validate()) {
+      evt.preventDefault();
+    }
+  });
+};
+
+const updatePrice = (newValue) => {
+  priceField.value = newValue;
+  pristine.validate(priceField);
+};
+
+const updateAddress = (newValue) => {
+  addressInput.value = newValue;
+};
+
+export {initForm, disableForm, enableForm, updatePrice, updateAddress};

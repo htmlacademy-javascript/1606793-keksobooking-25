@@ -68,4 +68,13 @@ const validateConnectedFormElements = (
   pristine.addValidator(element2, validateElements, errorMessageCallback);
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getOrdinal, validateConnectedFormElements};
+const coordinatesToAddress = (lat, lng) => `${lat.toFixed(5)} ${lng.toFixed(5)}`;
+
+export {
+  getRandomPositiveInteger,
+  getRandomPositiveFloat,
+  getRandomArrayElement,
+  getOrdinal,
+  validateConnectedFormElements,
+  coordinatesToAddress
+};

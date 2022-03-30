@@ -76,6 +76,6 @@ const createAdvertisement = () => {
   };
 };
 
-const advertisements = new Array(1).fill(null).map(createAdvertisement);
+const getAdvertisements = () => new Array(10).fill(null).map(createAdvertisement);
 
-export {advertisements};
+export {getAdvertisements};
