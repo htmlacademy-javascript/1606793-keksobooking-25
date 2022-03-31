@@ -23,7 +23,6 @@ const LAT_BOUNDS = {
   MAX: 35.70000,
 };
 
-/* временные данные */
 
 const checkAvatarNumber = (number) => (number >= 10) ? number : `0${number}`;
 
@@ -63,7 +62,7 @@ const createAdvertisement = () => {
       price: getRandomPositiveInteger(25000, 100000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger(1, 4),
-      guest: getRandomPositiveInteger(1, 4),
+      guests: getRandomPositiveInteger(1, 4),
       checkin: getRandomArrayElement(TIMES),
       checkout: getRandomArrayElement(TIMES),
       features: getRandomArrayElements(FEATURES),
@@ -77,6 +76,6 @@ const createAdvertisement = () => {
   };
 };
 
-const advertisements = new Array(1).fill(null).map(createAdvertisement);
+const getAdvertisements = () => new Array(10).fill(null).map(createAdvertisement);
 
-export {advertisements};
+export {getAdvertisements};
