@@ -1,4 +1,4 @@
-import {getAdvertisements} from './data.js';
+import {getAdvertisements} from './api.js';
 import {createPopup} from './card.js';
 import {COORDINATES_TOKYO} from './const.js';
 
@@ -48,7 +48,7 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
     onMainPinMarkerMoved(lat, lng);
   });
 
-  getAdvertisements().forEach((advert) => {
+  getAdvertisements().forEach(() => {
     const {lat, lng} = advert.location;
     L.marker(
       {lat, lng},
