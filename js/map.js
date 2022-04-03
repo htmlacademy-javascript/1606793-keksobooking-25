@@ -2,6 +2,8 @@ import {getAdvertisements} from './api.js';
 import {createPopup} from './card.js';
 import {COORDINATES_TOKYO} from './const.js';
 
+const ALERT_SHOW_TIME = 5000;
+
 const initMap = (onMapLoad, onMainPinMarkerMoved) => {
   const map = L
     .map('map-canvas')
@@ -48,17 +50,43 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
     onMainPinMarkerMoved(lat, lng);
   });
 
-  getAdvertisements().forEach(() => {
-    const {lat, lng} = advert.location;
-    L.marker(
-      {lat, lng},
-      {
-        icon: commonPinIcon,
-        keepInView: true,
-      })
-      .bindPopup(createPopup(advert))
-      .addTo(map);
-  });
+  const renderAdvertisements = (adverts) => {
+    adverts.forEach((advert) => {
+      const {lat, lng} = advert.location;
+      L.marker(
+        {lat, lng},
+        {
+          icon: commonPinIcon,
+          keepInView: true,
+        })
+        .bindPopup(createPopup(advert))
+        .addTo(map);
+    });
+  };
+
+  const onServerError = (message) => {
+    const alertContainer = document.createElement('div');
+    alertContainer.style.zIndex = 100;
+    alertContainer.style.position = 'absolute';
+    alertContainer.style.left = 0;
+    alertContainer.style.top = 0;
+    alertContainer.style.right = 0;
+    alertContainer.style.padding = '29px 3px';
+    alertContainer.style.fontSize = '30px';
+    alertContainer.style.textAlign = 'center';
+    alertContainer.style.color = 'white';
+    alertContainer.style.backgroundColor = 'red';
+
+    alertContainer.textContent = message;
+
+    document.body.append(alertContainer);
+
+    setTimeout(() => {
+      alertContainer.remove();
+    }, ALERT_SHOW_TIME);
+  };
+
+  getAdvertisements(renderAdvertisements, onServerError);
 };
 
 export {initMap};

@@ -1,18 +1,4 @@
-function getRandomPositiveInteger (a, b) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
-
-function getRandomPositiveFloat (a, b, digits = 1) {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
-  return +result.toFixed(digits);
-}
-
-const getRandomArrayElement = (array) => array[getRandomPositiveInteger(0, array.length - 1)];
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const getOrdinal = (num, ordinals) => {
   const remainder100 = num % 100;
@@ -71,9 +57,7 @@ const validateConnectedFormElements = (
 const coordinatesToAddress = (lat, lng) => `${lat.toFixed(5)} ${lng.toFixed(5)}`;
 
 export {
-  getRandomPositiveInteger,
-  getRandomPositiveFloat,
-  getRandomArrayElement,
+  isEscEvent,
   getOrdinal,
   validateConnectedFormElements,
   coordinatesToAddress

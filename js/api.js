@@ -1,12 +1,38 @@
-const getAdvertisements = () =>
-fetch('https://25.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((data) => {
-    onSuccess(data);
-  })
-  .catch((err) => {
-    onError(err);
-  });
+import {showSuccessPopup, showErrorPopup} from './form-send.js';
 
+const getAdvertisements = (onSuccess, onError) => {
+  fetch('https://25.javascript.pages.academy/keksobooking/data',
+    {
+      method: 'GET',
+    },
+  )
+    .then((response) => response.json())
+    .then((adverts) => {
+      onSuccess(adverts);
+    })
+    .catch((err) => {
+      onError(err);
+    });
+};
 
-export {getAdvertisements};
+const sendForm = () => {
+  fetch(
+    'https://25.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body: new FormData,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        showSuccessPopup();
+      } // else {
+      //showErrorPopup();
+      //}
+    })
+    .catch(() => {
+      showErrorPopup();
+    });
+};
+
+export {getAdvertisements, sendForm};
