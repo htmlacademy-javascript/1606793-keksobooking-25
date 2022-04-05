@@ -1,4 +1,6 @@
-import {showSuccessPopup, showErrorPopup} from './form-send.js';
+import {resetForm} from './reset-form.js';
+
+const submitButton = document.querySelector('.ad-form__submit');
 
 const getAdvertisements = (onSuccess, onError) => {
   fetch('https://25.javascript.pages.academy/keksobooking/data',
@@ -15,23 +17,38 @@ const getAdvertisements = (onSuccess, onError) => {
     });
 };
 
-const sendForm = () => {
+const disableSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.classList.add('ad-form__submit--disabled');
+};
+
+const enableSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.classList.remove('ad-form__submit--disabled');
+};
+
+const sendForm = (onSuccess, onError, formData) => {
+  disableSubmitButton();
   fetch(
     'https://25.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
-      body: new FormData,
+      body: formData,
     },
   )
     .then((response) => {
+      enableSubmitButton();
       if (response.ok) {
-        showSuccessPopup();
-      } // else {
-      //showErrorPopup();
-      //}
+        onSuccess();
+        resetForm();
+        // resetMap();
+      } else {
+        onError();
+      }
     })
     .catch(() => {
-      showErrorPopup();
+      enableSubmitButton();
+      onError();
     });
 };
 

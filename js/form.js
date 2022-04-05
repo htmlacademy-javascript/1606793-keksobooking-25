@@ -20,6 +20,7 @@ import {
 } from './const.js';
 import {validateConnectedFormElements} from './utils.js';
 import {sendForm} from './api.js';
+import {showSuccessPopup, showErrorPopup} from './form-send.js';
 
 const OFFERS_MIN_PRICES = {
   [OFFER_BUNGALOW]: [OFFER_BUNGALOW_MIN_PRICE],
@@ -130,23 +131,17 @@ const initForm = () => {
     getCapacityOptionsErrorMessage
   );
 
-  // const setUserFormSubmit = (onSuccess) => {
-  //   adForm.addEventListener('submit', (evt) => {
-  //     if (!pristine.validate()) {
-  //       evt.preventDefault();
-  //     }
-  //     const isValid = pristine.validate();
-  //     if (isValid) {
-  //       sendForm(
-  //         () => onSuccess(),
-  //         () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
-  //         new FormData(evt.target),
-  //       );
-  //     }
-  //   });
-  // };
-
-  sendForm();
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendForm(
+        showSuccessPopup,
+        showErrorPopup,
+        new FormData(evt.target),
+      );
+    }
+  });
 };
 
 const updatePrice = (newValue) => {

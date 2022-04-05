@@ -87,6 +87,18 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
   };
 
   getAdvertisements(renderAdvertisements, onServerError);
+
+  // const resetMap = () => {
+  //   map.setView({
+  //     lat: COORDINATES_TOKYO.LAT,
+  //     lng: COORDINATES_TOKYO.LNG,
+  //   }, 12);
+  //   mainPinMarker.setLatLng({
+  //     lat: COORDINATES_TOKYO.LAT,
+  //     lng: COORDINATES_TOKYO.LNG,
+  //   })
+  // }
 };
 
 export {initMap};
+
