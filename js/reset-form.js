@@ -1,9 +1,9 @@
-// все заполненные поля возвращаются в изначальное состояние;
-// значение поля адреса корректируется соответственно исходному положению метки;
+import {updateAddress} from './form.js';
+import {coordinatesToAddress} from './utils.js';
+import {COORDINATES_TOKYO} from './const.js';
 
 const avatarInput = document.querySelector('#avatar');
 const tilteInput = document.querySelector('#title');
-//ADDRESS
 const typeInput = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 const timeInInput = document.querySelector('#timein');
@@ -15,7 +15,6 @@ const descriptionTextarea = document.querySelector('#description');
 const imagesInput = document.querySelector('#images');
 
 const AVATAR_INPUT_DEFAULT_VALUE = '';
-//ADDRESS
 const TITLE_INPUT_DEFAULT_VALUE = '';
 const TYPE_INPUT_DEFAULT_VALUE = 'flat';
 const PRICE_INPUT_DEFAULT_VALUE = '';
@@ -27,7 +26,7 @@ const IMAGES_INPUT_DEFAULT_VALUE = '';
 
 const resetForm = () => {
   avatarInput.value = AVATAR_INPUT_DEFAULT_VALUE;
-  //ADDRESS
+  updateAddress(coordinatesToAddress(COORDINATES_TOKYO.LAT, COORDINATES_TOKYO.LNG));
   tilteInput.value = TITLE_INPUT_DEFAULT_VALUE;
   typeInput.value = TYPE_INPUT_DEFAULT_VALUE;
   priceInput.value = PRICE_INPUT_DEFAULT_VALUE;

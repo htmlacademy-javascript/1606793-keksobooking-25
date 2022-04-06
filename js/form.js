@@ -21,6 +21,9 @@ import {
 import {validateConnectedFormElements} from './utils.js';
 import {sendForm} from './api.js';
 import {showSuccessPopup, showErrorPopup} from './form-send.js';
+import {resetMap} from './map.js';
+import {resetForm} from './reset-form.js';
+import {resetFilters} from './reset-map-filters.js';
 
 const OFFERS_MIN_PRICES = {
   [OFFER_BUNGALOW]: [OFFER_BUNGALOW_MIN_PRICE],
@@ -61,6 +64,8 @@ const priceField = adForm.querySelector('[name="price"]');
 const addressInput = document.querySelector('#address');
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
+const resetPage = document.querySelector('.ad-form__reset');
+const popupBaloon = document.querySelector('leaflet-popup-pane');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -93,6 +98,22 @@ const enableForm = () => {
   });
 };
 
+const onFormSubmitSuccess = () => {
+  showSuccessPopup();
+  resetMap();
+  resetFilters();
+  resetForm();
+  popupBaloon.remove();
+};
+
+resetPage.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetMap();
+  resetFilters();
+  resetForm();
+  popupBaloon.remove();
+});
+
 const initForm = () => {
 
   // Цена за ночь
@@ -113,6 +134,19 @@ const initForm = () => {
     validateOfferOptions,
     getOfferTypeErrorMessage
   );
+
+  // Время заезда и выезда
+
+  const timeinSelect = document.querySelector('#timein');
+  const timeoutSelect = document.querySelector('#timeout');
+
+  timeinSelect.addEventListener('change', () => {
+    timeoutSelect.value = timeinSelect.value;
+  });
+
+  timeoutSelect.addEventListener('change', () => {
+    timeinSelect.value = timeoutSelect.value;
+  });
 
   // Количество комнат и количество мест
 
@@ -136,7 +170,7 @@ const initForm = () => {
     const isValid = pristine.validate();
     if (isValid) {
       sendForm(
-        showSuccessPopup,
+        onFormSubmitSuccess,
         showErrorPopup,
         new FormData(evt.target),
       );

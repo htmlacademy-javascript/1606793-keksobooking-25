@@ -1,5 +1,3 @@
-import {resetForm} from './reset-form.js';
-
 const submitButton = document.querySelector('.ad-form__submit');
 
 const getAdvertisements = (onSuccess, onError) => {
@@ -40,8 +38,6 @@ const sendForm = (onSuccess, onError, formData) => {
       enableSubmitButton();
       if (response.ok) {
         onSuccess();
-        resetForm();
-        // resetMap();
       } else {
         onError();
       }

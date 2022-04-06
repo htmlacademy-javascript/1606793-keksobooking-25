@@ -1,8 +1,17 @@
-// если на карте был показан балун, то он должен быть скрыт.
-// фильтрация (состояние фильтров и отфильтрованные метки) сбрасывается;
-// метка адреса возвращается в исходное положение;
+const typeFilter = document.querySelector('#housing-type');
+const priceFilter = document.querySelector('#housing-price');
+const roomsFilter = document.querySelector('#housing-rooms');
+const guestsFilter = document.querySelector('#housing-guests');
+const mapCheckboxes = document.querySelectorAll('.map__checkbox');
 
-//
-// const resetMapFilters = () => {
-//
-// };
+const resetFilters = () => {
+  typeFilter.value = 'any';
+  priceFilter.value = 'any';
+  roomsFilter.value = 'any';
+  guestsFilter.value = 'any';
+  mapCheckboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+};
+
+export {resetFilters};
