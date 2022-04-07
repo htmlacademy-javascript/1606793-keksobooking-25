@@ -65,7 +65,6 @@ const addressInput = document.querySelector('#address');
 const roomsField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 const resetPage = document.querySelector('.ad-form__reset');
-const popupBaloon = document.querySelector('leaflet-popup-pane');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -98,12 +97,17 @@ const enableForm = () => {
   });
 };
 
+const removePopup = () => {
+  const popup = document.querySelector('.leaflet-popup-pane');
+  popup.innerHTML = '';
+};
+
 const onFormSubmitSuccess = () => {
   showSuccessPopup();
   resetMap();
   resetFilters();
   resetForm();
-  popupBaloon.remove();
+  removePopup();
 };
 
 resetPage.addEventListener('click', (evt) => {
@@ -111,7 +115,7 @@ resetPage.addEventListener('click', (evt) => {
   resetMap();
   resetFilters();
   resetForm();
-  popupBaloon.remove();
+  removePopup();
 });
 
 const initForm = () => {
