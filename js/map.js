@@ -1,9 +1,15 @@
-import {getAdvertisements} from './data.js';
 import {createPopup} from './card.js';
 import {COORDINATES_TOKYO} from './const.js';
 
+const mapState = {
+  map: null,
+  commonPinIcon: null,
+  mainPinIcon: null,
+  mainPinMarker: null,
+};
+
 const initMap = (onMapLoad, onMainPinMarkerMoved) => {
-  const map = L
+  mapState.map = L
     .map('map-canvas')
     .on('load', onMapLoad)
     .setView({
@@ -16,49 +22,62 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
     {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
-  ).addTo(map);
+  ).addTo(mapState.map);
 
-  const mainPinIcon = L.icon({
+  mapState.mainPinIcon = L.icon({
     iconUrl: './img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
 
-  const commonPinIcon = L.icon({
+  mapState.commonPinIcon = L.icon({
     iconUrl: './img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  const mainPinMarker = L.marker(
+  mapState.mainPinMarker = L.marker(
     {
       lat: COORDINATES_TOKYO.LAT,
       lng: COORDINATES_TOKYO.LNG,
     },
     {
       draggable: true,
-      icon: mainPinIcon,
+      icon: mapState.mainPinIcon,
     }
-  );
+  ).addTo(mapState.map);
 
-  mainPinMarker.addTo(map);
-
-  mainPinMarker.on('moveend', (evt) => {
+  mapState.mainPinMarker.on('moveend', (evt) => {
     const {lat, lng} = evt.target.getLatLng();
     onMainPinMarkerMoved(lat, lng);
   });
 
-  getAdvertisements().forEach((advert) => {
+};
+
+const renderMapMarkers = (adverts) => {
+  adverts.forEach((advert) => {
     const {lat, lng} = advert.location;
     L.marker(
       {lat, lng},
       {
-        icon: commonPinIcon,
+        icon: mapState.commonPinIcon,
         keepInView: true,
       })
       .bindPopup(createPopup(advert))
-      .addTo(map);
+      .addTo(mapState.map);
   });
 };
 
-export {initMap};
+const resetMap = () => {
+  mapState.map.setView({
+    lat: COORDINATES_TOKYO.LAT,
+    lng: COORDINATES_TOKYO.LNG,
+  }, 12);
+  mapState.mainPinMarker.setLatLng({
+    lat: COORDINATES_TOKYO.LAT,
+    lng: COORDINATES_TOKYO.LNG,
+  });
+};
+
+export {initMap, renderMapMarkers, resetMap};
+

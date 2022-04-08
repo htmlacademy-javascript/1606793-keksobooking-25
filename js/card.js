@@ -45,10 +45,15 @@ function createPopup (ads) {
   const guestOrdinal = getOrdinal(ads.offer.guests, ['гостя', 'гостей', 'гостей']);
   advertisementElement.querySelector('.popup__text--capacity').textContent = `${ads.offer.rooms} ${roomOrdinal} для ${ads.offer.guests} ${guestOrdinal}`;
   advertisementElement.querySelector('.popup__text--time').textContent = `Заезд после ${ads.offer.checkin}, выезд после ${ads.offer.checkout}`;
-  renderFeatures(advertisementElement, ads.offer.features);
+  if (ads.offer.features) {
+    renderFeatures(advertisementElement, ads.offer.features);
+  }
   advertisementElement.querySelector('.popup__description').textContent = ads.offer.description;
   advertisementElement.querySelector('.popup__avatar').src = ads.author.avatar;
-  renderPhotos(advertisementElement, ads.offer.photos);
+  if (ads.offer.photos) {
+    renderPhotos(advertisementElement, ads.offer.photos);
+  }
+
   return advertisementElement;
 }
 
