@@ -4,6 +4,10 @@ import {initMap, renderMapMarkers} from './map.js';
 import {initForm, disableForm, enableForm, updatePrice, updateAddress} from './form.js';
 import {initPriceSlider} from './price-slider.js';
 import {getAdvertisements} from './api.js';
+import {uploadAvatar} from './upload-avatar.js';
+import {uploadPhotos} from './upload-photos.js';
+uploadPhotos();
+uploadAvatar();
 
 const ALERT_SHOW_TIME = 5000;
 

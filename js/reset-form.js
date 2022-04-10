@@ -1,6 +1,7 @@
 import {updateAddress} from './form.js';
 import {coordinatesToAddress} from './utils.js';
 import {COORDINATES_TOKYO} from './const.js';
+import {photoElement} from './upload-photos.js';
 
 const avatarInput = document.querySelector('#avatar');
 const tilteInput = document.querySelector('#title');
@@ -12,7 +13,7 @@ const roomNumberInput = document.querySelector('#room_number');
 const capacityInput = document.querySelector('#capacity');
 const featuresCheckboxes = document.querySelectorAll('.features__checkbox');
 const descriptionTextarea = document.querySelector('#description');
-const imagesInput = document.querySelector('#images');
+const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
 const AVATAR_INPUT_DEFAULT_VALUE = '';
 const TITLE_INPUT_DEFAULT_VALUE = '';
@@ -22,7 +23,7 @@ const TIME_INPUT_DEFAULT_VALUE = '12:00';
 const ROOM_NUMBER_INPUT_DEFAULT_VALUE = '1';
 const CAPACITY_INPUT_DEFAULT_VALUE = '3';
 const DESCRIPTION_TEXTAREA_DEFAULT_VALUE = '';
-const IMAGES_INPUT_DEFAULT_VALUE = '';
+const AVATAR_DEFAULT_SRC = 'img/muffin-grey.svg';
 
 const resetForm = () => {
   avatarInput.value = AVATAR_INPUT_DEFAULT_VALUE;
@@ -38,7 +39,8 @@ const resetForm = () => {
     checkbox.checked = false;
   });
   descriptionTextarea.value = DESCRIPTION_TEXTAREA_DEFAULT_VALUE;
-  imagesInput.value = IMAGES_INPUT_DEFAULT_VALUE;
+  avatarPreview.src = AVATAR_DEFAULT_SRC;
+  photoElement.remove();
 };
 
 export {resetForm};
