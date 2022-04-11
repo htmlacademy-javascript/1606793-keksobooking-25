@@ -1,5 +1,6 @@
 import {createPopup} from './card.js';
 import {COORDINATES_TOKYO} from './const.js';
+import {renderFilterData} from './map-filters.js';
 
 const MAX_MARKERS_AMOUNT = 10;
 
@@ -57,6 +58,7 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
 
 const renderMapMarkers = (adverts) => {
   adverts.slice(0, MAX_MARKERS_AMOUNT).forEach((advert) => {
+    renderFilterData();
     const {lat, lng} = advert.location;
     L.marker(
       {lat, lng},
