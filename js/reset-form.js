@@ -4,7 +4,7 @@ import {COORDINATES_TOKYO} from './const.js';
 import {photoElement} from './upload-photos.js';
 
 const avatarInput = document.querySelector('#avatar');
-const tilteInput = document.querySelector('#title');
+const titleInput = document.querySelector('#title');
 const typeInput = document.querySelector('#type');
 const priceInput = document.querySelector('#price');
 const timeInInput = document.querySelector('#timein');
@@ -28,7 +28,7 @@ const AVATAR_DEFAULT_SRC = 'img/muffin-grey.svg';
 const resetForm = () => {
   avatarInput.value = AVATAR_INPUT_DEFAULT_VALUE;
   updateAddress(coordinatesToAddress(COORDINATES_TOKYO.LAT, COORDINATES_TOKYO.LNG));
-  tilteInput.value = TITLE_INPUT_DEFAULT_VALUE;
+  titleInput.value = TITLE_INPUT_DEFAULT_VALUE;
   typeInput.value = TYPE_INPUT_DEFAULT_VALUE;
   priceInput.value = PRICE_INPUT_DEFAULT_VALUE;
   timeInInput.value = TIME_INPUT_DEFAULT_VALUE;

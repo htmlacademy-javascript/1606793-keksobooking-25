@@ -1,4 +1,5 @@
-import {debounce} from './utils/debounce.js';
+import {debounce} from './utils';
+import {renderMapMarkers} from './map.js';
 
 const housingTypeInput = document.querySelector('[name="housing-type"]');
 const housingPriceInput = document.querySelector('[name="housing-price"]');
@@ -7,10 +8,9 @@ const housingGuestsInput = document.querySelector('[name="housing-guests"]');
 const wifiInput = document.querySelector('[value="wifi"]');
 const dishwasherInput = document.querySelector('[value="dishwasher"]');
 const parkingInput = document.querySelector('[value="parking"]');
-const washerInpiut = document.querySelector('[value="washer"]');
+const washerInput = document.querySelector('[value="washer"]');
 const elevatorInput = document.querySelector('[value="elevator"]');
 const conditionerInput = document.querySelector('[value="conditioner"]');
-
 
 const filterByFeature = (feature, data) => data.filter((adv) => !!(adv.offer.features && adv.offer.features.includes(feature)));
 
@@ -26,7 +26,7 @@ const renderFilterData = () => {
   }
 
   if (housingPriceInput.value === 'high') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.price >= 50000 );
+    filteredData = filteredData.filter((adv) =>  adv.offer.price >= 50000);
   }
   if (housingRoomsInput.value === '1') {
     filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 1);
@@ -61,7 +61,7 @@ const renderFilterData = () => {
     filteredData = filterByFeature('parking', filteredData);
   }
 
-  if (washerInpiut.checked) {
+  if (washerInput.checked) {
     filteredData = filterByFeature('washer', filteredData);
   }
 
@@ -72,6 +72,7 @@ const renderFilterData = () => {
   if (elevatorInput.checked) {
     filteredData = filterByFeature('elevator', filteredData);
   }
+  return renderMapMarkers(filteredData);
 };
 
 const onChange = (input) => {
@@ -85,7 +86,7 @@ onChange(housingGuestsInput);
 onChange(wifiInput);
 onChange(dishwasherInput);
 onChange(parkingInput);
-onChange(washerInpiut);
+onChange(washerInput);
 onChange(conditionerInput);
 onChange(elevatorInput);
 
