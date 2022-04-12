@@ -4,6 +4,7 @@ import {initMap, renderMapMarkers} from './map.js';
 import {initForm, disableForm, enableForm, updatePrice, updateAddress} from './form.js';
 import {initPriceSlider} from './price-slider.js';
 import {getAdvertisements} from './api.js';
+import {initAdvertsCache} from './map-filters.js';
 import {uploadAvatar} from './upload-avatar.js';
 import {uploadPhotos} from './upload-photos.js';
 uploadPhotos();
@@ -38,7 +39,10 @@ const onMapLoad = () => {
   updateAddress(
     coordinatesToAddress(COORDINATES_TOKYO.LAT, COORDINATES_TOKYO.LNG)
   );
-  getAdvertisements(renderMapMarkers, onServerError);
+  getAdvertisements((advertsFromServer) => {
+    initAdvertsCache(advertsFromServer);
+    renderMapMarkers();
+  }, onServerError);
 };
 
 initForm();

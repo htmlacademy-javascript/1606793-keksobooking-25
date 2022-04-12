@@ -35,7 +35,7 @@ const renderPhotos = (advertisementElement, links) => {
   }
 };
 
-function createPopup (ads) {
+const createPopup = (ads) => {
   const advertisementElement = cardTemplate.cloneNode(true);
   advertisementElement.querySelector('.popup__title').textContent = ads.offer.title;
   advertisementElement.querySelector('.popup__text--address').textContent = ads.offer.address;
@@ -47,14 +47,18 @@ function createPopup (ads) {
   advertisementElement.querySelector('.popup__text--time').textContent = `Заезд после ${ads.offer.checkin}, выезд после ${ads.offer.checkout}`;
   if (ads.offer.features) {
     renderFeatures(advertisementElement, ads.offer.features);
+  } else {
+    document.querySelector('popup__features').remove();
   }
   advertisementElement.querySelector('.popup__description').textContent = ads.offer.description;
   advertisementElement.querySelector('.popup__avatar').src = ads.author.avatar;
   if (ads.offer.photos) {
     renderPhotos(advertisementElement, ads.offer.photos);
+  } else {
+    document.querySelector('popup__photos').remove();
   }
 
   return advertisementElement;
-}
+};
 
 export {createPopup};

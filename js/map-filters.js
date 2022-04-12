@@ -1,5 +1,6 @@
 import {debounce} from './utils';
-import {renderMapMarkers} from './map.js';
+
+const MAX_MARKERS_AMOUNT = 10;
 
 const housingTypeInput = document.querySelector('[name="housing-type"]');
 const housingPriceInput = document.querySelector('[name="housing-price"]');
@@ -12,71 +13,66 @@ const washerInput = document.querySelector('[value="washer"]');
 const elevatorInput = document.querySelector('[value="elevator"]');
 const conditionerInput = document.querySelector('[value="conditioner"]');
 
-const filterByFeature = (feature, data) => data.filter((adv) => !!(adv.offer.features && adv.offer.features.includes(feature)));
+let cachedAdverts = [];
+const initAdvertsCache = (adverts) => cachedAdverts = adverts;
 
-const renderFilterData = () => {
-  let filteredData = [];
-  filteredData = filteredData.filter((adv) => adv.offer.type === housingTypeInput.value || housingTypeInput.value === 'any');
-  if (housingPriceInput.value === 'middle') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.price >= 10000 && adv.offer.price <= 50000);
-  }
+const filterByHousingType = (housingType) => (advert) => {
+  return housingType === 'any'
+    ? true
+    : housingType === advert.offer.type;
+};
 
-  if (housingPriceInput.value === 'low') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.price <= 10000);
-  }
+const filterByPrice = (housingPrice) => (advert) => {
+  return housingPrice === 'any'
+    ? true
+    : housingPrice === advert.offer.price;
+};
 
-  if (housingPriceInput.value === 'high') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.price >= 50000);
-  }
-  if (housingRoomsInput.value === '1') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 1);
-  }
-  if (housingRoomsInput.value === '2') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 2);
-  }
-  if (housingRoomsInput.value === '3') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 3);
-  }
-  if (housingGuestsInput.value === '2') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 2);
-  }
+const filterByExpectedRooms = (expectedRooms) => (advert) => {
+  return expectedRooms === 'any'
+    ? true
+    : expectedRooms === advert.offer.rooms;
+};
 
-  if (housingGuestsInput.value === '1') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 1);
-  }
+const filterByExpectedGuests = (expectedGuests) => (advert) => {
+  return expectedGuests === 'any'
+    ? true
+    : expectedGuests === advert.offer.guests;
+};
 
-  if (housingGuestsInput.value === '0') {
-    filteredData = filteredData.filter((adv) =>  adv.offer.rooms === 0);
-  }
-
+const filterByFeatures = (filterByFeature) => {
   if (wifiInput.checked) {
-    filteredData = filterByFeature('wifi', filteredData);
+    filterByFeature('wifi');
   }
-
   if (dishwasherInput.checked) {
-    filteredData = filterByFeature('dishwasher', filteredData);
+    filterByFeature('dishwasher');
   }
-
   if (parkingInput.checked) {
-    filteredData = filterByFeature('parking', filteredData);
+    filterByFeature('parking');
   }
-
   if (washerInput.checked) {
-    filteredData = filterByFeature('washer', filteredData);
+    filterByFeature('washer');
   }
-
   if (conditionerInput.checked) {
-    filteredData = filterByFeature('conditioner', filteredData);
+    filterByFeature('conditioner');
   }
-
   if (elevatorInput.checked) {
-    filteredData = filterByFeature('elevator', filteredData);
+    filterByFeature('elevator');
   }
-  return renderMapMarkers(filteredData);
+};
+
+const filterAdverts = () => {
+  return cachedAdverts
+    .filter(filterByHousingType(housingTypeInput.value))
+    .filter(filterByPrice(housingPriceInput.value))
+    .filter(filterByExpectedRooms(housingRoomsInput.value))
+    .filter(filterByExpectedGuests(housingGuestsInput.value))
+    .filter(filterByFeatures)
+    .slice(0, MAX_MARKERS_AMOUNT);
 };
 
 const onChange = (input) => {
-  input.addEventListener('change', debounce(renderFilterData, 500));
+  input.addEventListener('change', debounce(filterAdverts, 500));
 };
 
 onChange(housingTypeInput);
@@ -90,4 +86,4 @@ onChange(washerInput);
 onChange(conditionerInput);
 onChange(elevatorInput);
 
-export {renderFilterData};
+export {filterAdverts, initAdvertsCache};
