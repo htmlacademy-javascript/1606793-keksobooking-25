@@ -9,7 +9,7 @@ const uploadAvatar = () => {
     const fileName = file.name.toLowerCase();
 
     const matches = FILE_TYPES.some((it) => {
-      return fileName.endsWith(it);
+      fileName.endsWith(it);
     });
 
     if (matches) {

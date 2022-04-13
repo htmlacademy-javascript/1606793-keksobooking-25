@@ -7,6 +7,7 @@ const mapState = {
   commonPinIcon: null,
   mainPinIcon: null,
   mainPinMarker: null,
+  markers: [],
 };
 
 const initMap = (onMapLoad, onMainPinMarkerMoved) => {
@@ -54,11 +55,19 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
   });
 };
 
+const clearMarkers = () => {
+  mapState.markers.forEach((marker) => {
+    mapState.map.removeLayer(marker);
+  });
+  mapState.markers = [];
+};
+
 const renderMapMarkers = () => {
+  clearMarkers();
   const filteredAdverts = filterAdverts();
   filteredAdverts.forEach((advert) => {
     const {lat, lng} = advert.location;
-    L.marker(
+    const marker = L.marker(
       {lat, lng},
       {
         icon: mapState.commonPinIcon,
@@ -66,6 +75,7 @@ const renderMapMarkers = () => {
       })
       .bindPopup(createPopup(advert))
       .addTo(mapState.map);
+    mapState.markers.push(marker);
   });
 };
 
