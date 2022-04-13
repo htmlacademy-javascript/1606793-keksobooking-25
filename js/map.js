@@ -1,11 +1,13 @@
 import {createPopup} from './card.js';
 import {COORDINATES_TOKYO} from './const.js';
+import {filterAdverts} from './map-filters.js';
 
 const mapState = {
   map: null,
   commonPinIcon: null,
   mainPinIcon: null,
   mainPinMarker: null,
+  markers: [],
 };
 
 const initMap = (onMapLoad, onMainPinMarkerMoved) => {
@@ -51,13 +53,21 @@ const initMap = (onMapLoad, onMainPinMarkerMoved) => {
     const {lat, lng} = evt.target.getLatLng();
     onMainPinMarkerMoved(lat, lng);
   });
-
 };
 
-const renderMapMarkers = (adverts) => {
-  adverts.forEach((advert) => {
+const clearMarkers = () => {
+  mapState.markers.forEach((marker) => {
+    mapState.map.removeLayer(marker);
+  });
+  mapState.markers = [];
+};
+
+const renderMapMarkers = () => {
+  clearMarkers();
+  const filteredAdverts = filterAdverts();
+  filteredAdverts.forEach((advert) => {
     const {lat, lng} = advert.location;
-    L.marker(
+    const marker = L.marker(
       {lat, lng},
       {
         icon: mapState.commonPinIcon,
@@ -65,6 +75,7 @@ const renderMapMarkers = (adverts) => {
       })
       .bindPopup(createPopup(advert))
       .addTo(mapState.map);
+    mapState.markers.push(marker);
   });
 };
 

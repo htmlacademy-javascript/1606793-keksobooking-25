@@ -161,7 +161,7 @@ const initForm = () => {
   ${CAPACITY_NAME_BY_VALUE[+capacityField.value]}
 `;
 
-  validateOfferOptions(
+  validateConnectedFormElements(
     pristine,
     roomsField,
     capacityField,
