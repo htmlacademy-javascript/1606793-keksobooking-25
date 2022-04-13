@@ -14,6 +14,7 @@ const capacityInput = document.querySelector('#capacity');
 const featuresCheckboxes = document.querySelectorAll('.features__checkbox');
 const descriptionTextarea = document.querySelector('#description');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
+const priceSlider = document.querySelector('.ad-form__slider');
 
 const AVATAR_INPUT_DEFAULT_VALUE = '';
 const TITLE_INPUT_DEFAULT_VALUE = '';
@@ -31,6 +32,7 @@ const resetForm = () => {
   titleInput.value = TITLE_INPUT_DEFAULT_VALUE;
   typeInput.value = TYPE_INPUT_DEFAULT_VALUE;
   priceInput.value = PRICE_INPUT_DEFAULT_VALUE;
+  priceSlider.noUiSlider.reset();
   timeInInput.value = TIME_INPUT_DEFAULT_VALUE;
   timeOutInput.value = TIME_INPUT_DEFAULT_VALUE;
   roomNumberInput.value = ROOM_NUMBER_INPUT_DEFAULT_VALUE;
