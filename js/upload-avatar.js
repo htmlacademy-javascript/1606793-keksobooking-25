@@ -8,9 +8,7 @@ const uploadAvatar = () => {
     const file = avatarUpload.files[0];
     const fileName = file.name.toLowerCase();
 
-    const matches = FILE_TYPES.some((it) => {
-      fileName.endsWith(it);
-    });
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
       avatarPreview.src = URL.createObjectURL(file);

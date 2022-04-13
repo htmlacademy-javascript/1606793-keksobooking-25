@@ -13,9 +13,7 @@ const uploadPhotos = () => {
     const file = photoUpload.files[0];
     const fileName = file.name.toLowerCase();
 
-    const matches = FILE_TYPES.some((it) => {
-      fileName.endsWith(it);
-    });
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
     if (matches) {
       photoElement.src = URL.createObjectURL(file);
