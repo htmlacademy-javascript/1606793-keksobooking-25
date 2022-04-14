@@ -83,7 +83,6 @@ const disableForm = () => {
     element.setAttribute('disabled', 'disabled');
   });
 
-
   mapFeatures.setAttribute('disabled', 'disabled');
 };
 
