@@ -63,8 +63,8 @@ const showErrorPopup = (text) => {
   document.body.appendChild(errorPopup);
 
   document.addEventListener('keydown', onErrorKeydown);
-  errorPopupButton.removeEventListener('click', onErrorButtonClick);
-  errorPopup.removeEventListener('click', onErrorPopupClick);
+  errorPopupButton.addEventListener('click', onErrorButtonClick);
+  errorPopup.addEventListener('click', onErrorPopupClick);
 };
 
 const showSuccessPopup = () => {
