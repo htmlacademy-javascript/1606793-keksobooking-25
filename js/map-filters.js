@@ -69,11 +69,11 @@ const filterAdverts = () => cachedAdverts
   .filter(filterByExpectedRooms(housingRoomsInput.value))
   .filter(filterByExpectedGuests(housingGuestsInput.value))
   .filter(filterByFeatures('wifi', wifiInput.checked))
-  .filter(filterByFeatures('dishwasher', wifiInput.checked))
-  .filter(filterByFeatures('parking', wifiInput.checked))
-  .filter(filterByFeatures('washer', wifiInput.checked))
-  .filter(filterByFeatures('conditioner', wifiInput.checked))
-  .filter(filterByFeatures('elevator', wifiInput.checked))
+  .filter(filterByFeatures('dishwasher', dishwasherInput.checked))
+  .filter(filterByFeatures('parking', parkingInput.checked))
+  .filter(filterByFeatures('washer', washerInput.checked))
+  .filter(filterByFeatures('conditioner', conditionerInput.checked))
+  .filter(filterByFeatures('elevator', elevatorInput.checked))
   .slice(0, MAX_MARKERS_AMOUNT);
 
 const onChange = (input) => {

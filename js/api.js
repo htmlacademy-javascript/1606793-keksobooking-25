@@ -1,7 +1,10 @@
 const submitButton = document.querySelector('.ad-form__submit');
 
+const GET_DATA_SRC = 'https://25.javascript.pages.academy/keksobooking/data';
+const POST_DATA_SRC = 'https://25.javascript.pages.academy/keksobooking';
+
 const getAdvertisements = (onSuccess, onError) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data',
+  fetch(GET_DATA_SRC,
     {
       method: 'GET',
     },
@@ -28,7 +31,7 @@ const enableSubmitButton = () => {
 const sendForm = (onSuccess, onError, formData) => {
   disableSubmitButton();
   fetch(
-    'https://25.javascript.pages.academy/keksobooking',
+    POST_DATA_SRC,
     {
       method: 'POST',
       body: formData,
