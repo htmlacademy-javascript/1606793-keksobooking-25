@@ -29,7 +29,7 @@ const validateConnectedFormElements = (
   let isValidatedElement1 = false;
   let isValidatedElement2 = false;
 
-  const validateElements = () => {
+  const validateElements = function () {
     if (isValidatedElement1 && isValidatedElement2) {
       isValidatedElement1 = isValidatedElement2 = false;
     }

@@ -1,46 +1,78 @@
 import {isEscEvent} from './utils.js';
 
-const errorPopup = document.querySelector('#error').content.querySelector('.error');
-const successPopup = document.querySelector('#success').content.querySelector('.success');
+const error = document.querySelector('#error').content.querySelector('.error');
+const success = document.querySelector('#success').content.querySelector('.success');
 
-const closeResultPopup = (template) => {
-  document.body.removeChild(template);
+const onSuccessKeydown = (evt) => {
+  if(isEscEvent(evt)) {
+    // eslint-disable-next-line no-use-before-define
+    closeSuccessPopup();
+  }
 };
 
-const showErrorPopup = () => {
-  const errorTemplate = errorPopup.cloneNode(true);
-  const closeErrorPopupButton = errorTemplate.querySelector('.error__button');
+const onSuccessPopupClick = () => {
+  // eslint-disable-next-line no-use-before-define
+  closeSuccessPopup();
+};
 
-  closeErrorPopupButton.addEventListener('click', () => {
-    closeResultPopup(errorTemplate);
-  });
 
-  document.addEventListener('keydown', () => {
-    if (isEscEvent) {
-      closeResultPopup(errorTemplate);
-    }
-  });
+const onErrorKeydown = (evt) => {
+  if(isEscEvent(evt)) {
+    // eslint-disable-next-line no-use-before-define
+    closeErrorPopup();
+  }
+};
 
-  errorTemplate.addEventListener('click', () => {
-    closeResultPopup(errorTemplate);
-  });
+const onErrorPopupClick = () => {
+  // eslint-disable-next-line no-use-before-define
+  closeErrorPopup();
+};
 
-  document.body.appendChild(errorTemplate);
+const onErrorButtonClick = () => {
+  // eslint-disable-next-line no-use-before-define
+  closeErrorPopup();
+};
+
+
+const closeSuccessPopup = () => {
+  const successPopup = document.querySelector('.success');
+  successPopup.parentNode.removeChild(successPopup);
+  document.removeEventListener('keydown', onSuccessKeydown);
+  successPopup.removeEventListener('click', onSuccessPopupClick);
+};
+
+
+const closeErrorPopup = () => {
+  const errorPopup = document.querySelector('.error');
+  const errorPopupButton = document.querySelector('.error__button');
+
+  errorPopup.parentNode.removeChild(errorPopup);
+  document.removeEventListener('keydown', onErrorKeydown);
+  errorPopupButton.removeEventListener('click', onErrorButtonClick);
+  errorPopup.removeEventListener('click', onErrorPopupClick);
+};
+
+const showErrorPopup = (text) => {
+  const errorPopup = error.cloneNode(true);
+  const errorPopupButton = errorPopup.querySelector('.error__button');
+
+  if (text) {
+    errorPopup.querySelector('.error__message').textContent = text;
+    errorPopup.removeChild(errorPopupButton);
+  }
+  document.body.appendChild(errorPopup);
+
+  document.addEventListener('keydown', onErrorKeydown);
+  errorPopupButton.removeEventListener('click', onErrorButtonClick);
+  errorPopup.removeEventListener('click', onErrorPopupClick);
 };
 
 const showSuccessPopup = () => {
-  const successTemplate = successPopup.cloneNode(true);
-  document.body.appendChild(successTemplate);
+  const successPopup = success.cloneNode(true);
+  document.body.appendChild(successPopup);
 
-  document.addEventListener('keydown', () => {
-    if (isEscEvent) {
-      closeResultPopup(successTemplate);
-    }
-  });
-
-  successTemplate.addEventListener('click', () => {
-    closeResultPopup(successTemplate);
-  });
+  document.addEventListener('keydown', onSuccessKeydown);
+  successPopup.addEventListener('click', onSuccessPopupClick);
 };
 
 export {showSuccessPopup, showErrorPopup};
