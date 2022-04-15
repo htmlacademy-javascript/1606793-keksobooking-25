@@ -58,7 +58,7 @@ const filterByFeatures = (feature, isChecked) => (advert) => {
   }
   const features = advert.offer.features;
   if (!features) {
-    return true;
+    return false;
   }
   return features.includes(feature);
 };
