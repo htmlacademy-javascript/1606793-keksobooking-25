@@ -1,7 +1,7 @@
 import {updateAddress} from './form.js';
 import {coordinatesToAddress} from './utils.js';
 import {COORDINATES_TOKYO} from './const.js';
-import {photoElement} from './upload-photos.js';
+import {photoElement, photoUpload} from './upload-photos.js';
 
 const avatarInput = document.querySelector('#avatar');
 const titleInput = document.querySelector('#title');
@@ -16,7 +16,7 @@ const descriptionTextarea = document.querySelector('#description');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const priceSlider = document.querySelector('.ad-form__slider');
 
-const AVATAR_INPUT_DEFAULT_VALUE = '';
+const IMG_INPUT_DEFAULT_VALUE = '';
 const TITLE_INPUT_DEFAULT_VALUE = '';
 const TYPE_INPUT_DEFAULT_VALUE = 'flat';
 const PRICE_INPUT_DEFAULT_VALUE = '';
@@ -27,7 +27,8 @@ const DESCRIPTION_TEXTAREA_DEFAULT_VALUE = '';
 const AVATAR_DEFAULT_SRC = 'img/muffin-grey.svg';
 
 const resetForm = () => {
-  avatarInput.value = AVATAR_INPUT_DEFAULT_VALUE;
+  avatarInput.value = IMG_INPUT_DEFAULT_VALUE;
+  avatarPreview.src = AVATAR_DEFAULT_SRC;
   updateAddress(coordinatesToAddress(COORDINATES_TOKYO.LAT, COORDINATES_TOKYO.LNG));
   titleInput.value = TITLE_INPUT_DEFAULT_VALUE;
   typeInput.value = TYPE_INPUT_DEFAULT_VALUE;
@@ -41,7 +42,7 @@ const resetForm = () => {
     checkbox.checked = false;
   });
   descriptionTextarea.value = DESCRIPTION_TEXTAREA_DEFAULT_VALUE;
-  avatarPreview.src = AVATAR_DEFAULT_SRC;
+  photoUpload.value = IMG_INPUT_DEFAULT_VALUE;
   photoElement.remove();
 };
 
