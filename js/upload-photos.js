@@ -20,4 +20,4 @@ const uploadPhotos = () => {
   });
 };
 
-export {uploadPhotos, photoElement};
+export {uploadPhotos, photoElement, photoUpload};
