@@ -1,7 +1,7 @@
 import {COORDINATES_TOKYO} from './const.js';
 import {coordinatesToAddress} from './utils.js';
 import {initMap, renderMapMarkers} from './map.js';
-import {initForm, disableForm, enableForm, updatePrice, updateAddress} from './form.js';
+import {initForm, enableForm, updatePrice, updateAddress} from './form.js';
 import {initPriceSlider} from './price-slider.js';
 import {getAdvertisements} from './api.js';
 import {initAdvertsCache} from './map-filters.js';
@@ -34,6 +34,7 @@ const onServerError = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+
 const onMapLoad = () => {
   enableForm();
   updateAddress(
@@ -46,7 +47,6 @@ const onMapLoad = () => {
 };
 
 initForm();
-disableForm();
 initMap(
   onMapLoad,
   (lat, lng) => updateAddress(coordinatesToAddress(lat, lng))
